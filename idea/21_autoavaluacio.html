@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103240">
+  <meta name="description" content="Laboratori Impuls: autoavaluació interactiva sobre les primeres decisions d'una botiga en línia. Tres preguntes amb correcció immediata i explicacions.">
+  <title>IMPULS · Pren les primeres decisions · Autoavaluació</title>
+  <style>
+    /* SISTEMA VISUAL IMPULS · v1.0 — Mateixa identitat que el simulador de marge comercial */
+    :root {
+      color-scheme:light;
+      --ink:#152b35;--ink-soft:#4a626b;--deep:#103240;
+      --teal:#007f78;--teal-light:#def5ee;--teal-strong:#006c66;
+      --orange:#f9a65c;--orange-light:#fff0df;
+      --paper:#f6f8f7;--white:#fff;--line:#dce6e4;
+      --red:#aa334b;--red-bg:#fff0f2;--green:#067a62;--green-bg:#e7f7ef;
+      --shadow:0 18px 60px rgba(12,42,50,.09);
+      --radius:22px;
+      --font:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+    button{font:inherit;cursor:pointer}
+    button:focus-visible{outline:3px solid #80dad0;outline-offset:4px}
+    .shell{max-width:1120px;margin:auto;padding:0 28px}
+    .topline{height:7px;background:linear-gradient(90deg,#0ab9a7 0%,#0ab9a7 72%,#f9a65c 72%,#f9a65c 100%)}
+    .header{background:var(--deep);color:#fff;position:relative;overflow:hidden}
+    .header:after{content:"";position:absolute;width:590px;height:590px;right:-255px;top:-285px;border-radius:50%;border:95px solid rgba(255,255,255,.04);pointer-events:none}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding-top:24px;padding-bottom:24px;gap:14px;position:relative;z-index:2}
+    .brand{display:flex;align-items:center;gap:11px;font-size:22px;letter-spacing:.13em;font-weight:900}
+    .brand-icon{width:38px;height:38px;border-radius:12px;background:#10bcaa;display:grid;place-items:center;color:#092b31}
+    .brand-icon svg{width:25px;height:25px}
+    .course-pill{font-size:12px;font-weight:800;letter-spacing:.08em;border:1px solid rgba(255,255,255,.27);color:#daeeec;padding:8px 13px;border-radius:100px;white-space:nowrap}
+    .hero{display:grid;grid-template-columns:1.16fr .84fr;gap:22px;align-items:center;padding:23px 0 69px;position:relative;z-index:2}
+    .eyebrow{display:flex;align-items:center;gap:11px;color:#aee9e1;letter-spacing:.18em;font-size:12px;font-weight:850;text-transform:uppercase}
+    .eyebrow:before{content:"";height:2px;width:31px;background:#f4b96e}
+    h1{font-size:clamp(37px,4.7vw,59px);font-weight:850;line-height:1.05;letter-spacing:-.052em;margin:17px 0 18px;max-width:730px}
+    .hero p{color:#d0e3e3;max-width:590px;font-size:17px;margin:0;line-height:1.75}
+    .hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:23px}
+    .hero-tags span{font-size:12px;letter-spacing:.02em;color:#dbf4f0;border:1px solid rgba(180,235,226,.3);padding:7px 11px;border-radius:100px;background:rgba(255,255,255,.04)}
+    .hero-art{min-height:240px;position:relative;display:grid;place-items:center}
+    .orb{position:absolute;width:290px;height:290px;border-radius:100%;background:radial-gradient(circle at 38% 33%,#20bbaa,#006e73 62%,#004b59);opacity:.58;right:14%;top:-3%;filter:drop-shadow(0 30px 45px #00252b65)}
+    .orbit{position:absolute;width:252px;height:252px;border:1px dashed rgba(222,254,242,.25);border-radius:100%;top:5%;right:4%;transform:rotate(-21deg) scaleX(1.4)}
+    .float-card{position:absolute;border:1px solid rgba(255,255,255,.4);border-radius:17px;padding:18px 20px;color:var(--deep);box-shadow:0 20px 50px #00252b45}
+    .float-main{background:#f2fffc;min-width:210px;right:8%;top:20%;transform:rotate(-5deg)}
+    .float-small{background:#fff0db;left:2%;bottom:0;transform:rotate(7deg);min-width:176px}
+    .float-label{font-size:10px;font-weight:850;letter-spacing:.13em;color:#567278;text-transform:uppercase}
+    .float-number{display:block;font-size:51px;letter-spacing:-.06em;font-weight:850;margin:3px 0 0;line-height:1.15}
+    .float-small .float-number{font-size:20px;letter-spacing:-.025em}
+    .float-small .float-number span{display:inline-block;color:var(--teal-strong);font-weight:900}
+    .dots{display:flex;gap:6px;margin-top:12px}.dots i{height:9px;width:26px;border-radius:100px;background:#00a793}.dots i:nth-child(2){background:#51cbb9}.dots i:nth-child(3){background:#f7b26c}
+    main{position:relative;margin-top:-37px;z-index:5;padding-bottom:45px}
+    .meta{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:19px 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;box-shadow:var(--shadow);margin-bottom:29px}
+    .meta-item{display:flex;align-items:center;gap:13px;min-width:0}
+    .meta-item+.meta-item{border-left:1px solid var(--line);padding-left:22px}
+    .meta-icon{height:39px;width:39px;flex-shrink:0;display:grid;place-items:center;background:#e6f5f2;color:var(--teal);border-radius:12px}
+    .meta-icon svg{width:20px;height:20px}
+    .meta-k{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:850;color:#6d838b}
+    .meta-v{display:block;font-size:13px;font-weight:740;line-height:1.3;margin-top:2px}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:35px 0 21px}
+    .kicker{font-weight:850;text-transform:uppercase;font-size:11px;letter-spacing:.17em;color:var(--teal);display:block;margin-bottom:8px}
+    h2{font-size:clamp(24px,3vw,32px);line-height:1.19;letter-spacing:-.035em;margin:0;font-weight:830}
+    .section-head p{color:var(--ink-soft);font-size:13px;max-width:390px;margin:0}
+    .progress-panel{display:flex;align-items:center;gap:20px;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 21px;margin-bottom:18px;box-shadow:0 7px 25px rgba(19,51,62,.03)}
+    .progress-panel strong{font-size:13px;display:block}.progress-panel small{font-size:11px;color:var(--ink-soft);display:block;margin-top:1px}
+    .progress-right{width:min(46%,260px)}
+    .track{height:10px;border-radius:100px;background:#e6efec;overflow:hidden}
+    .fill{height:100%;width:0;background:linear-gradient(90deg,#058d82,#48d2b2);border-radius:100px;transition:width .25s ease}
+    .progress-count{text-align:right;font-size:11px;color:#557478;font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums}
+    .quiz{display:grid;gap:20px}
+    .question{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 7px 25px rgba(19,51,62,.04);transition:border-color .2s,box-shadow .2s}
+    .question.answered{border-color:#beddd5}
+    .qhead{display:flex;align-items:start;gap:16px;padding:24px 27px 19px}
+    .qnum{height:44px;width:44px;border-radius:13px;background:#e6f5f2;color:var(--teal-strong);display:grid;place-items:center;flex-shrink:0;font-size:17px;font-weight:900}
+    .qcontent{min-width:0;flex:1}
+    .qmeta{font-weight:850;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#62827d;margin:2px 0 7px}
+    h3{margin:0;font-size:clamp(17px,2vw,20px);line-height:1.43;letter-spacing:-.02em;font-weight:790}
+    .answer-list{padding:0 27px 24px 87px;display:grid;gap:10px}
+    .answer{display:flex;gap:15px;align-items:center;text-align:left;width:100%;background:#f8faf9;border:1.5px solid #dfe8e5;border-radius:14px;padding:14px 17px;color:var(--ink);line-height:1.45;min-height:66px;transition:background .16s,border-color .16s,transform .16s}
+    .answer:hover{border-color:#5abdae;background:#f0faf7;transform:translateY(-1px)}
+    .answer:active{transform:translateY(0)}
+    .letter{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:9px;background:#e9f1ef;color:#3b6865;font-size:12px;font-weight:900}
+    .answer .answer-text{font-size:14px;font-weight:640;flex:1}
+    .answer .state-icon{height:23px;width:23px;flex:0 0 23px;display:grid;place-items:center;opacity:0}
+    .answer .state-icon svg{width:21px;height:21px}
+    .answer.selected.correct,.answer.solution{border-color:#49a991;background:#e7f7ef}
+    .answer.selected.correct .letter,.answer.solution .letter{background:#087d64;color:#fff}
+    .answer.selected.correct .state-icon,.answer.solution .state-icon{opacity:1;color:#067a62}
+    .answer.selected.incorrect{border-color:#d88392;background:#fff0f2}
+    .answer.selected.incorrect .letter{background:#a8324a;color:#fff}
+    .answer.selected.incorrect .state-icon{opacity:1;color:#a8324a}
+    .feedback{display:none;margin:0 27px 25px 87px;background:#e9f8f2;border-left:4px solid #17866d;border-radius:0 12px 12px 0;padding:14px 17px;font-size:13px;line-height:1.62}
+    .feedback.visible{display:block}
+    .feedback.wrong{background:#fff3f3;border-color:#bf5367}
+    .feedback strong{display:block;font-size:13px;margin-bottom:4px;color:#126650}
+    .feedback.wrong strong{color:#96364c}
+    .feedback p{margin:0;color:#385c5b}
+    .feedback.wrong p{color:#694c51}
+    .summary{margin-top:25px;border-radius:var(--radius);background:#153a43;color:#fff;padding:27px 29px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;position:relative;overflow:hidden}
+    .summary:after{content:"";position:absolute;right:-70px;bottom:-120px;width:280px;height:280px;border:45px solid rgba(255,255,255,.025);border-radius:50%;pointer-events:none}
+    .summary .kicker{color:#a0e9dd}
+    .summary h3{font-size:23px;line-height:1.3;font-weight:820;margin:0 0 7px}
+    .summary p{margin:0;color:#cbe5e3;font-size:13px;max-width:620px}
+    .score{display:flex;align-items:baseline;gap:5px;white-space:nowrap}
+    .score strong{font-size:46px;letter-spacing:-.05em;color:#78e5ce;line-height:1}
+    .score span{color:#b7d3d0;font-size:18px;font-weight:750}
+    .action-row{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:17px}
+    .btn{border:1px solid #bed2cd;border-radius:12px;display:inline-flex;gap:9px;align-items:center;justify-content:center;min-height:48px;padding:11px 18px;font-weight:780;font-size:13px;transition:transform .15s,background .15s,border-color .15s}
+    .btn:active{transform:translateY(1px)}
+    .btn svg{width:18px;height:18px}
+    .btn-primary{background:#008b7f;color:#fff;border-color:#008b7f}
+    .btn-primary:hover{background:#006d66}
+    .btn-secondary{background:#fff;color:#315c5b}
+    .btn-secondary:hover{background:#ebf7f4;border-color:#0d9c8d}
+    .learning{margin-top:27px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .learning-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 27px}
+    .learning-card h3{font-size:17px;margin:0 0 8px}
+    .learning-card p{font-size:13px;line-height:1.75;color:var(--ink-soft);margin:0}
+    .learning-card.alt{background:#fff1df;border-color:#f5dcc1}
+    .learning-card.alt .kicker{color:#9a6b2d}
+    .foot{margin-top:32px;border-top:1px solid #d7e1df;padding:20px 0 35px;display:flex;justify-content:space-between;gap:15px;align-items:center;color:#6c8387;font-size:11px}
+    .foot strong{color:#355d61;letter-spacing:.1em}
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:900px){.hero{grid-template-columns:1fr .65fr}.float-main{right:-5%}.float-small{left:-9%}.orb{right:-4%}}
+    @media(max-width:760px){.shell{padding:0 18px}.nav{padding:18px 0 22px}.brand{font-size:19px}.course-pill{font-size:10px;padding:7px 10px}.hero{display:block;padding:12px 0 64px}.hero p{font-size:15px}.hero-art{display:none}.meta{grid-template-columns:1fr;gap:12px;padding:16px 19px}.meta-item+.meta-item{border-left:0;border-top:1px solid var(--line);padding:12px 0 0}.meta-icon{height:32px;width:32px}.section-head{display:block}.section-head p{margin-top:9px}.qhead{padding:20px 19px 17px;gap:12px}.qnum{width:38px;height:38px;border-radius:11px}.answer-list{padding:0 17px 20px}.feedback{margin:0 17px 20px}.summary{grid-template-columns:1fr}.score strong{font-size:40px}.action-row{justify-content:stretch}.btn{flex:1}.learning{grid-template-columns:1fr}.learning-card{padding:22px}.foot{align-items:flex-start;flex-direction:column}}
+    @media(max-width:390px){h1{font-size:35px}.answer{padding:12px;gap:9px}.letter{width:27px;height:27px;flex-basis:27px}.answer .answer-text{font-size:13px}.action-row{display:grid;grid-template-columns:1fr}.course-pill{letter-spacing:0}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="ic-dumbbell" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M4 8l4-4M2 6l4-4M16 20l4-4m-2 6 4-4M8 4 4 8m16 8-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="m5 12 4 4 10-10" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cross" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="ic-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 16l4-5 4 3 5-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-bulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4M8 15a7 7 0 1 1 8 0l-1 2H9l-1-2Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6M20 4v7h-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</svg>
+<div class="topline"></div>
+<header class="header">
+  <div class="shell">
+    <div class="nav">
+      <div class="brand"><span class="brand-icon"><svg aria-hidden="true"><use href="#ic-dumbbell"/></svg></span>IMPULS<span class="visually-hidden">, laboratori educatiu</span></div>
+      <div class="course-pill">MP1235 · RA2 · TEMA 2.1</div>
+    </div>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Laboratori Impuls · 02 / Autoavaluació</div>
+        <h1>Pren les primeres<br>decisions d'Impuls<span style="color:#69dbca">.</span></h1>
+        <p>Activitat breu per consolidar els conceptes del punt 2.1. Posa't a prova amb tres situacions reals d'una botiga en línia i descobreix per què una decisió és millor que una altra.</p>
+        <div class="hero-tags"><span>3 preguntes</span><span>Correcció immediata</span><span>Explicacions didàctiques</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb"></div><div class="orbit"></div>
+        <div class="float-card float-main"><div class="float-label">Decisions per prendre</div><strong class="float-number">03</strong><div class="dots"><i></i><i></i><i></i></div></div>
+        <div class="float-card float-small"><div class="float-label">Procés d'aprenentatge</div><strong class="float-number">Pensa <span>·</span> Decideix <span>·</span> Aprèn</strong></div>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="shell">
+  <div class="meta" aria-label="Característiques del laboratori">
+    <div class="meta-item"><span class="meta-icon"><svg aria-hidden="true"><use href="#ic-bulb"/></svg></span><div><span class="meta-k">Reflexiona</span><span class="meta-v">Decideix amb criteri</span></div></div>
+    <div class="meta-item"><span class="meta-icon"><svg aria-hidden="true"><use href="#ic-check"/></svg></span><div><span class="meta-k">Comprova</span><span class="meta-v">Correcció en seleccionar</span></div></div>
+    <div class="meta-item"><span class="meta-icon"><svg aria-hidden="true"><use href="#ic-chart"/></svg></span><div><span class="meta-k">Aprèn</span><span class="meta-v">Explicació i nota final</span></div></div>
+  </div>
+  <div class="section-head">
+    <div><span class="kicker">01 · Posa't a prova</span><h2>Quina decisió prendries?</h2></div>
+    <p>Selecciona una de les tres opcions. En fer clic, veuràs immediatament la correcció i el motiu. Pots canviar la resposta en qualsevol moment.</p>
+  </div>
+  <div class="progress-panel" aria-label="Progrés del qüestionari">
+    <div><strong id="progress-title">Comença l'autoavaluació</strong><small id="progress-subtitle">Respon les tres preguntes al teu ritme.</small></div>
+    <div class="progress-right"><div class="track"><div id="progress-fill" class="fill"></div></div><div id="progress-count" class="progress-count">0 / 3 respostes</div></div>
+  </div>
+  <div class="quiz" id="quiz">
+    <section class="question" data-question="0" aria-labelledby="q1-title">
+      <div class="qhead"><div class="qnum">01</div><div class="qcontent"><div class="qmeta">Experiència d'usuari · UX</div><h3 id="q1-title">Una botiga té moltes visites, però gairebé ningú compra. Quina seria la primera actuació més raonable?</h3></div></div>
+      <div class="answer-list" role="group" aria-label="Respostes de la pregunta 1">
+        <button type="button" class="answer" data-answer="0" aria-pressed="false"><span class="letter">A</span><span class="answer-text">Canviar immediatament el logotip</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+        <button type="button" class="answer" data-answer="1" aria-pressed="false"><span class="letter">B</span><span class="answer-text">Analitzar on abandonen els usuaris i quins obstacles troben</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-check"/></svg></span></button>
+        <button type="button" class="answer" data-answer="2" aria-pressed="false"><span class="letter">C</span><span class="answer-text">Afegir cinquanta productes nous</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+      </div>
+      <div class="feedback" role="status" aria-live="polite"><strong></strong><p></p></div>
+    </section>
+    <section class="question" data-question="1" aria-labelledby="q2-title">
+      <div class="qhead"><div class="qnum">02</div><div class="qcontent"><div class="qmeta">Proposta de valor · Diferenciació</div><h3 id="q2-title">Quina és la proposta de valor més concreta per a Impuls?</h3></div></div>
+      <div class="answer-list" role="group" aria-label="Respostes de la pregunta 2">
+        <button type="button" class="answer" data-answer="0" aria-pressed="false"><span class="letter">A</span><span class="answer-text">Tenim molts productes</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+        <button type="button" class="answer" data-answer="1" aria-pressed="false"><span class="letter">B</span><span class="answer-text">Som la millor botiga del mercat</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+        <button type="button" class="answer" data-answer="2" aria-pressed="false"><span class="letter">C</span><span class="answer-text">T'ajudem a començar a entrenar amb kits senzills i guies clares</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-check"/></svg></span></button>
+      </div>
+      <div class="feedback" role="status" aria-live="polite"><strong></strong><p></p></div>
+    </section>
+    <section class="question" data-question="2" aria-labelledby="q3-title">
+      <div class="qhead"><div class="qnum">03</div><div class="qcontent"><div class="qmeta">Arquitectura de la informació · Disseny</div><h3 id="q3-title">Què convé preparar abans de desenvolupar les pàgines de la botiga?</h3></div></div>
+      <div class="answer-list" role="group" aria-label="Respostes de la pregunta 3">
+        <button type="button" class="answer" data-answer="0" aria-pressed="false"><span class="letter">A</span><span class="answer-text">Un sitemap i un mockup</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-check"/></svg></span></button>
+        <button type="button" class="answer" data-answer="1" aria-pressed="false"><span class="letter">B</span><span class="answer-text">Una campanya de descomptes sense pressupost</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+        <button type="button" class="answer" data-answer="2" aria-pressed="false"><span class="letter">C</span><span class="answer-text">Centenars de publicacions a xarxes</span><span class="state-icon"><svg aria-hidden="true"><use href="#ic-cross"/></svg></span></button>
+      </div>
+      <div class="feedback" role="status" aria-live="polite"><strong></strong><p></p></div>
+    </section>
+  </div>
+  <section class="summary" id="summary" aria-live="polite" aria-atomic="true">
+    <div><span class="kicker">02 · El teu resultat</span><h3 id="summary-title">Encara tens decisions per prendre</h3><p id="summary-text">Respon les preguntes. La correcció apareixerà just després de cada clic.</p></div>
+    <div class="score" aria-label="Puntuació"><strong id="score-value">–</strong><span>/ 3</span></div>
+  </section>
+  <div class="action-row">
+    <button type="button" class="btn btn-secondary" id="reset"><svg aria-hidden="true"><use href="#ic-refresh"/></svg>Torna-ho a intentar</button>
+    <button type="button" class="btn btn-primary" id="grade"><svg aria-hidden="true"><use href="#ic-check"/></svg>Comprova el resultat final</button>
+  </div>
+  <div class="learning">
+    <section class="learning-card"><span class="kicker">03 · Recorda</span><h3>No totes les decisions tenen el mateix impacte.</h3><p>Abans de modificar l'aparença d'una botiga o ampliar-ne el catàleg, identifica el problema real. Les dades i l'experiència del client ajuden a decidir amb criteri.</p></section>
+    <section class="learning-card alt"><span class="kicker">04 · Aplica-ho a Impuls</span><h3>De la teoria al projecte.</h3><p>Una proposta de valor concreta i un sitemap acompanyat d'un mockup permeten passar d'una idea genèrica a una botiga organitzada i centrada en el públic objectiu.</p></section>
+  </div>
+  <footer class="foot"><div><strong>IMPULS</strong> · Laboratoris de comerç electrònic</div><div>MP1235 · RA2 · 2.1 · Material educatiu · Funciona sense connexió</div></footer>
+</main>
+<script>
+(function () {
+  'use strict';
+  // Respostes correctes: 1-B, 2-C, 3-A. Les correccions es mostren immediatament.
+  const exercises = [
+    { correct: 1, why: "Si hi ha visites però no compres, primer cal estudiar el recorregut del client: en quin pas abandona i quines dificultats té. Canviar el logotip o afegir productes sense aquesta informació no resol necessàriament el problema." },
+    { correct: 2, why: "Una bona proposta de valor explica a qui ajudem i quin benefici concret oferim. Els kits senzills i les guies clares responen a les necessitats de qui vol començar a entrenar, mentre que les altres opcions són genèriques o poc demostrables." },
+    { correct: 0, why: "El sitemap defineix l'estructura i la navegació de la botiga; el mockup mostra com s'organitzarà visualment cada pàgina. Preparar-los abans de programar evita improvisacions i ajuda a detectar problemes d'usabilitat." }
+  ];
+  const questions = Array.from(document.querySelectorAll('.question'));
+  const selections = Array(exercises.length).fill(null);
+  const progressTitle = document.getElementById('progress-title');
+  const progressSubtitle = document.getElementById('progress-subtitle');
+  const progressFill = document.getElementById('progress-fill');
+  const progressCount = document.getElementById('progress-count');
+  const scoreValue = document.getElementById('score-value');
+  const summaryTitle = document.getElementById('summary-title');
+  const summaryText = document.getElementById('summary-text');
+  const summaryBox = document.getElementById('summary');
+
+  function stats() {
+    const completed = selections.filter(answer => answer !== null).length;
+    const correct = selections.reduce((sum, answer, index) => sum + Number(answer === exercises[index].correct), 0);
+    return { completed, correct };
+  }
+  function paintQuestion(index) {
+    const q = questions[index];
+    const picked = selections[index];
+    const expected = exercises[index].correct;
+    const feedback = q.querySelector('.feedback');
+    const isRight = picked === expected;
+    q.classList.toggle('answered', picked !== null);
+    q.querySelectorAll('.answer').forEach(button => {
+      const n = Number(button.dataset.answer);
+      const selected = picked === n;
+      button.classList.remove('selected','correct','incorrect','solution');
+      button.setAttribute('aria-pressed', String(selected));
+      if (picked !== null) {
+        if (selected) button.classList.add('selected', isRight ? 'correct' : 'incorrect');
+        if (!isRight && n === expected) button.classList.add('solution');
+      }
+      const icon = button.querySelector('use');
+      icon.setAttribute('href', n === expected ? '#ic-check' : '#ic-cross');
+    });
+    feedback.classList.toggle('visible', picked !== null);
+    feedback.classList.toggle('wrong', picked !== null && !isRight);
+    if (picked !== null) {
+      feedback.querySelector('strong').textContent = isRight ? 'Correcte! Bona decisió.' : 'Encara no. Aquesta no és la millor opció.';
+      feedback.querySelector('p').textContent = exercises[index].why;
+    } else {
+      feedback.querySelector('strong').textContent = '';
+      feedback.querySelector('p').textContent = '';
+    }
+  }
+  function paintSummary(force) {
+    const {completed,correct} = stats();
+    progressFill.style.width = ((completed / exercises.length) * 100) + '%';
+    progressCount.textContent = completed + ' / ' + exercises.length + ' respostes';
+    progressTitle.textContent = completed === 0 ? 'Comença l’autoavaluació' : completed === exercises.length ? 'Has respost totes les preguntes' : 'Continua! Vas pel bon camí';
+    progressSubtitle.textContent = completed === exercises.length ? 'Pots revisar o canviar qualsevol resposta.' : 'Cada resposta es corregeix immediatament.';
+    if (completed === 0) {
+      scoreValue.textContent = '–';
+      summaryTitle.textContent = 'Encara tens decisions per prendre';
+      summaryText.textContent = 'Respon les preguntes. La correcció apareixerà just després de cada clic.';
+    } else if (completed < exercises.length) {
+      scoreValue.textContent = correct;
+      summaryTitle.textContent = 'Ja pots veure les primeres correccions';
+      summaryText.textContent = 'Has respost ' + completed + ' de 3 preguntes i en tens ' + correct + ' de correctes. Continua fins a completar-les.';
+    } else if (correct === exercises.length) {
+      scoreValue.textContent = correct;
+      summaryTitle.textContent = 'Excel·lent! 3 de 3 decisions correctes.';
+      summaryText.textContent = 'Has identificat els principis essencials del 2.1: detectar friccions de compra, concretar la proposta de valor i planificar la web abans de desenvolupar-la.';
+    } else {
+      scoreValue.textContent = correct;
+      summaryTitle.textContent = correct === 2 ? 'Molt bé! Revisa una de les decisions.' : 'Segueix aprenent: revisa les explicacions.';
+      summaryText.textContent = 'Has encertat ' + correct + ' de 3 preguntes. Consulta la justificació de les respostes i torna a provar les opcions que vulguis.';
+    }
+    if (force && completed < exercises.length) {
+      const missing = selections.findIndex(value => value === null);
+      summaryTitle.textContent = 'Encara falten ' + (exercises.length - completed) + ' preguntes';
+      summaryText.textContent = 'Selecciona una resposta en cada pregunta per acabar l’autoavaluació.';
+      if (missing >= 0) questions[missing].scrollIntoView({behavior:'smooth',block:'center'});
+    } else if (force && completed === exercises.length) {
+      summaryBox.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  }
+  questions.forEach((question,index) => {
+    question.querySelectorAll('button[data-answer]').forEach(button => {
+      button.addEventListener('click', function () {
+        selections[index] = Number(this.dataset.answer);
+        paintQuestion(index);
+        paintSummary(false);
+      });
+    });
+  });
+  document.getElementById('grade').addEventListener('click', () => paintSummary(true));
+  document.getElementById('reset').addEventListener('click', () => {
+    selections.fill(null);
+    questions.forEach((_,index) => paintQuestion(index));
+    paintSummary(false);
+    questions[0].scrollIntoView({behavior:'smooth',block:'center'});
+  });
+  paintSummary(false);
+})();
+</script>
+</body>
+</html>
